@@ -1,0 +1,35 @@
+{
+  "name": "koa2-router-decorator",
+  "version": "0.1.0",
+  "description": "ES7 decorators for koa-router model",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spadesk1991/koa2-router-decorator.git"
+  },
+  "keywords": [
+    "koa2-router",
+    "decorator",
+    "koa",
+    "RESTful",
+    "API",
+    "router"
+  ],
+  "author": "spadesk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spadesk1991/koa2-router-decorator/issues"
+  },
+  "homepage": "https://github.com/spadesk1991/koa2-router-decorator#readme",
+  "dependencies": {
+    "koa": "^2.5.3",
+    "koa-router": "^7.4.0"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.0.46",
+    "@types/koa-router": "^7.0.32"
+  }
+}
