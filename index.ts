@@ -1,8 +1,9 @@
 import KoaRouter from 'koa-router'
 import { Context } from 'koa';
 import Koa from "koa";
-// import handleRes from "./handleRes"
+import fs from "fs"
 
+import handleRes from "./lib/handleRes"
 let app = new Koa();
 
 export function Get(url: string | RegExp) {
@@ -10,8 +11,8 @@ export function Get(url: string | RegExp) {
         let fn = descriptor.value;
         descriptor.value = async (router: KoaRouter) => {
             router.get(url, async (ctx: Context, next: () => Promise<any>) => {
-                // await handleRes(ctx, next, fn(ctx, next))
-                await fn(ctx, next);
+                const res = await fn(ctx, next);
+                handleRes(res, ctx, next);
             })
         }
     }
@@ -22,8 +23,8 @@ export function Post(url: string | RegExp) {
         let fn = descriptor.value;
         descriptor.value = async (router: KoaRouter) => {
             router.post(url, async (ctx: Context, next: () => Promise<any>) => {
-                const a = await fn(ctx, next)
-                console.log(a);
+                const res = await fn(ctx, next);
+                handleRes(res, ctx, next);
             })
         }
     }
@@ -34,7 +35,8 @@ export function Put(url: string | RegExp) {
         let fn = descriptor.value;
         descriptor.value = async (router: KoaRouter) => {
             router.put(url, async (ctx: Context, next: () => Promise<any>) => {
-                await fn(ctx, next)
+                const res = await fn(ctx, next);
+                handleRes(res, ctx, next);
             })
         }
     }
@@ -45,29 +47,32 @@ export function Patch(url: string | RegExp) {
         let fn = descriptor.value;
         descriptor.value = async (router: KoaRouter) => {
             router.patch(url, async (ctx: Context, next: () => Promise<any>) => {
-                await fn(ctx, next)
+                const res = await fn(ctx, next);
+                handleRes(res, ctx, next);
             })
         }
     }
 }
 
 export function Delete(url: string | RegExp) {
-    return function (target: Function, name: string, descriptor: TypedPropertyDescriptor<any>) {
+    return function (target: any, name: string, descriptor: TypedPropertyDescriptor<any>) {
         let fn = descriptor.value;
         descriptor.value = async (router: KoaRouter) => {
             router.delete(url, async (ctx: Context, next: () => Promise<any>) => {
-                await fn(ctx, next)
+                const res = await fn(ctx, next);
+                handleRes(res, ctx, next);
             })
         }
     }
 }
 
 export function All(url: string | RegExp) {
-    return function (target: Function, name: string, descriptor: TypedPropertyDescriptor<any>) {
+    return function (target: any, name: string, descriptor: TypedPropertyDescriptor<any>) {
         let fn = descriptor.value;
         descriptor.value = async (router: KoaRouter) => {
             router.all(url, async (ctx: Context, next: () => Promise<any>) => {
-                await fn(ctx, next)
+                const res = await fn(ctx, next);
+                handleRes(res, ctx, next);
             })
         }
     }
@@ -80,7 +85,7 @@ export function Controller(prefix: string) {
     }
     app.use(router.routes());
     app.use(router.allowedMethods());
-    return function (target: Function) {
+    return function (target: any) {
         let names = Object.getOwnPropertyNames(target.prototype);
         for (const name of names) {
             if (name !== "constructor") {
@@ -92,6 +97,31 @@ export function Controller(prefix: string) {
     }
 }
 
-export function getApp(): Koa {
+/**
+ * 加载路由
+ * @param controllePath 
+ */
+export function getApp(controllePath: string): Koa {
+    requireFile(controllePath);
     return app;
+}
+
+
+
+/**
+ * 加载路由
+ * @param controllePath 
+ */
+function requireFile(controllePath: string) {
+    const arrDir = fs.readdirSync(controllePath);
+    for (const f of arrDir) {
+        let path = controllePath;
+        path += `/${f}`;
+        if (/\.js$/.test(f) || /\.ts$/.test(f)) {
+            require(path);
+        }
+        else if (!/\.js\.map/.test(f)) {
+            requireFile(path);
+        }
+    }
 }
