@@ -19,13 +19,8 @@ To use it with typescripts you should enable `experimentalDecorators` and `emitD
 npm install -g typescript
 npm install -g tslint
 npm install koa --save
-npm install koa-router --save
 npm install @types/koa --save-dev
-npm install @types/koa-router-dev
 npm install reflect-metadata --save-dev
-npm install lodash --save
-npm install @types/lodash --save-dev
-npm install fs --save
 ```
 
 
@@ -54,7 +49,7 @@ export class User {
         return { err_code: 0, msg: "hello world!" }
     };
     @Post("/")
-    async(ctx: Context) {
+    async create(ctx: Context) {
         const { name, age, sex } = ctx.request.body;
 
         ctx.status = 200;

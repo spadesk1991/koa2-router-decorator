@@ -1,6 +1,6 @@
 {
   "name": "koa2-router-decorator",
-  "version": "0.3.2",
+  "version": "0.3.6",
   "description": "ES7 decorators for koa-router model",
   "main": "index.js",
   "types": "./index.d.ts",
@@ -32,11 +32,10 @@
   "dependencies": {
     "koa": "^2.5.3",
     "koa-router": "^7.4.0",
-    "lodash": "^4.17.11"
-  },
-  "devDependencies": {
+    "lodash": "^4.17.11",
     "@types/koa": "^2.0.46",
     "@types/koa-router": "^7.0.32",
     "@types/lodash": "^4.14.116"
-  }
+  },
+  "devDependencies": {}
 }
