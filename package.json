@@ -1,6 +1,6 @@
 {
   "name": "koa2-router-decorator",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "ES7 decorators for koa-router model",
   "main": "index.js",
   "types": "./index.d.ts",

@@ -6,11 +6,11 @@ import fs from "fs"
 import handleRes from "./lib/handleRes"
 let app = new Koa();
 
-export function Get(url: string | RegExp) {
+export function Get(url: string | RegExp, ...middleware: Array<KoaRouter.IMiddleware>) {
     return function (target: any, name: string, descriptor: TypedPropertyDescriptor<any>) {
         let fn = descriptor.value;
         descriptor.value = async (router: KoaRouter) => {
-            router.get(url, async (ctx: Context, next: () => Promise<any>) => {
+            router.get(url, ...middleware, async (ctx: Context, next: () => Promise<any>) => {
                 const res = await fn(ctx, next);
                 handleRes(res, ctx, next);
             })
@@ -18,11 +18,11 @@ export function Get(url: string | RegExp) {
     }
 }
 
-export function Post(url: string | RegExp) {
+export function Post(url: string | RegExp, ...middleware: Array<KoaRouter.IMiddleware>) {
     return function (target: any, name: string, descriptor: TypedPropertyDescriptor<any>) {
         let fn = descriptor.value;
         descriptor.value = async (router: KoaRouter) => {
-            router.post(url, async (ctx: Context, next: () => Promise<any>) => {
+            router.post(url, ...middleware, async (ctx: Context, next: () => Promise<any>) => {
                 const res = await fn(ctx, next);
                 handleRes(res, ctx, next);
             })
@@ -30,11 +30,11 @@ export function Post(url: string | RegExp) {
     }
 }
 
-export function Put(url: string | RegExp) {
+export function Put(url: string | RegExp, ...middleware: Array<KoaRouter.IMiddleware>) {
     return function (target: any, name: string, descriptor: TypedPropertyDescriptor<any>) {
         let fn = descriptor.value;
         descriptor.value = async (router: KoaRouter) => {
-            router.put(url, async (ctx: Context, next: () => Promise<any>) => {
+            router.put(url, ...middleware, async (ctx: Context, next: () => Promise<any>) => {
                 const res = await fn(ctx, next);
                 handleRes(res, ctx, next);
             })
@@ -42,11 +42,11 @@ export function Put(url: string | RegExp) {
     }
 }
 
-export function Patch(url: string | RegExp) {
+export function Patch(url: string | RegExp, ...middleware: Array<KoaRouter.IMiddleware>) {
     return function (target: any, name: string, descriptor: TypedPropertyDescriptor<any>) {
         let fn = descriptor.value;
         descriptor.value = async (router: KoaRouter) => {
-            router.patch(url, async (ctx: Context, next: () => Promise<any>) => {
+            router.patch(url, ...middleware, async (ctx: Context, next: () => Promise<any>) => {
                 const res = await fn(ctx, next);
                 handleRes(res, ctx, next);
             })
@@ -54,11 +54,11 @@ export function Patch(url: string | RegExp) {
     }
 }
 
-export function Delete(url: string | RegExp) {
+export function Delete(url: string | RegExp, ...middleware: Array<KoaRouter.IMiddleware>) {
     return function (target: any, name: string, descriptor: TypedPropertyDescriptor<any>) {
         let fn = descriptor.value;
         descriptor.value = async (router: KoaRouter) => {
-            router.delete(url, async (ctx: Context, next: () => Promise<any>) => {
+            router.delete(url, ...middleware, async (ctx: Context, next: () => Promise<any>) => {
                 const res = await fn(ctx, next);
                 handleRes(res, ctx, next);
             })
@@ -66,11 +66,11 @@ export function Delete(url: string | RegExp) {
     }
 }
 
-export function All(url: string | RegExp) {
+export function All(url: string | RegExp, ...middleware: Array<KoaRouter.IMiddleware>) {
     return function (target: any, name: string, descriptor: TypedPropertyDescriptor<any>) {
         let fn = descriptor.value;
         descriptor.value = async (router: KoaRouter) => {
-            router.all(url, async (ctx: Context, next: () => Promise<any>) => {
+            router.all(url, ...middleware, async (ctx: Context, next: () => Promise<any>) => {
                 const res = await fn(ctx, next);
                 handleRes(res, ctx, next);
             })
